@@ -1,4 +1,4 @@
-// Advanced animations and interactions
+// Enhanced animations and interactions for the portfolio
 class PortfolioAnimations {
     constructor() {
         this.init();
@@ -8,35 +8,54 @@ class PortfolioAnimations {
         this.createParticles();
         this.initScrollAnimations();
         this.initHoverEffects();
-        this.initCountUpAnimations();
         this.initTextAnimations();
+        this.initCursorFollower();
+        this.initGlitchEffect();
+        this.initMagneticEffect();
+        this.initScrollProgress();
+        this.initTypewriter();
+        this.initCountUpAnimations();
     }
 
-    // Create floating particles background
+    // Create animated particles background
     createParticles() {
-        const particlesContainer = document.createElement('div');
-        particlesContainer.className = 'particles';
-        document.body.appendChild(particlesContainer);
+        const particlesContainer = document.getElementById('particles-container');
+        if (!particlesContainer) return;
 
-        for (let i = 0; i < 50; i++) {
+        // Create particles
+        for (let i = 0; i < 80; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 6 + 's';
-            particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            particle.style.cssText = `
+                position: absolute;
+                width: ${Math.random() * 4 + 1}px;
+                height: ${Math.random() * 4 + 1}px;
+                background: ${this.getRandomColor()};
+                border-radius: 50%;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                animation: float ${Math.random() * 6 + 4}s ease-in-out infinite;
+                animation-delay: ${Math.random() * 2}s;
+                opacity: ${Math.random() * 0.5 + 0.3};
+            `;
             particlesContainer.appendChild(particle);
         }
     }
 
-    // Advanced scroll animations
+    getRandomColor() {
+        const colors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Enhanced scroll animations
     initScrollAnimations() {
-        const elements = document.querySelectorAll('.animate-on-scroll');
+        const elements = document.querySelectorAll('[data-aos]');
         
         const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
+                    entry.target.classList.add('aos-animate');
+                    this.triggerStaggeredAnimation(entry.target);
                 }
             });
         }, {
@@ -48,7 +67,7 @@ class PortfolioAnimations {
             scrollObserver.observe(el);
         });
 
-        // Parallax effect for hero section
+        // Parallax effect
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const parallaxElements = document.querySelectorAll('.parallax');
@@ -60,6 +79,17 @@ class PortfolioAnimations {
         });
     }
 
+    // Staggered animations for groups
+    triggerStaggeredAnimation(parent) {
+        const children = parent.querySelectorAll('.skill-tag, .tech-badge, .achievement-item');
+        children.forEach((child, index) => {
+            setTimeout(() => {
+                child.style.animation = `fadeInUp 0.6s ease-out forwards`;
+                child.style.animationDelay = `${index * 0.1}s`;
+            }, index * 50);
+        });
+    }
+
     // Enhanced hover effects
     initHoverEffects() {
         const cards = document.querySelectorAll('.hover-card');
@@ -67,14 +97,24 @@ class PortfolioAnimations {
         cards.forEach(card => {
             card.addEventListener('mouseenter', (e) => {
                 this.createRipple(e, card);
+                this.addGlow(card);
             });
             
             card.addEventListener('mousemove', (e) => {
                 this.tiltCard(e, card);
             });
             
-            card.addEventListener('mouseleave', (e) => {
+            card.addEventListener('mouseleave', () => {
                 this.resetCard(card);
+                this.removeGlow(card);
+            });
+        });
+
+        // Button hover effects
+        const buttons = document.querySelectorAll('.cta-button');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                this.animateButton(button);
             });
         });
     }
@@ -87,16 +127,25 @@ class PortfolioAnimations {
         const x = e.clientX - rect.left - size / 2;
         const y = e.clientY - rect.top - size / 2;
         
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.classList.add('ripple');
+        ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple-animation 0.8s ease-out;
+            pointer-events: none;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+        `;
         
+        ripple.classList.add('ripple');
         element.appendChild(ripple);
         
         setTimeout(() => {
             ripple.remove();
-        }, 1000);
+        }, 800);
     }
 
     // 3D tilt effect
@@ -108,51 +157,33 @@ class PortfolioAnimations {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
+        const rotateX = (y - centerY) / 8;
+        const rotateY = (centerX - x) / 8;
         
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
     }
 
     // Reset card transform
     resetCard(card) {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
     }
 
-    // Count up animations for statistics
-    initCountUpAnimations() {
-        const counters = document.querySelectorAll('.count-up');
-        
-        const countObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.animateCounter(entry.target);
-                    countObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        counters.forEach(counter => {
-            countObserver.observe(counter);
-        });
+    // Add glow effect
+    addGlow(element) {
+        element.style.boxShadow = '0 0 30px rgba(59, 130, 246, 0.3)';
     }
 
-    // Animate counter
-    animateCounter(element) {
-        const target = parseInt(element.textContent);
-        const duration = 2000;
-        const increment = target / (duration / 16);
-        let current = 0;
-        
-        const timer = setInterval(() => {
-            current += increment;
-            element.textContent = Math.floor(current);
-            
-            if (current >= target) {
-                element.textContent = target;
-                clearInterval(timer);
-            }
-        }, 16);
+    // Remove glow effect
+    removeGlow(element) {
+        element.style.boxShadow = '';
+    }
+
+    // Button animation
+    animateButton(button) {
+        button.style.transform = 'scale(1.05) translateY(-2px)';
+        setTimeout(() => {
+            button.style.transform = 'scale(1) translateY(0)';
+        }, 200);
     }
 
     // Text reveal animations
@@ -166,31 +197,92 @@ class PortfolioAnimations {
             text.split('').forEach((char, index) => {
                 const span = document.createElement('span');
                 span.textContent = char === ' ' ? '\u00A0' : char;
-                span.style.animationDelay = `${index * 0.1}s`;
-                span.classList.add('char-animate');
+                span.style.cssText = `
+                    display: inline-block;
+                    opacity: 0;
+                    transform: translateY(20px);
+                    animation: char-reveal 0.5s ease-out forwards;
+                    animation-delay: ${index * 0.05}s;
+                `;
                 element.appendChild(span);
             });
         });
     }
 
-    // Smooth reveal animation
-    revealOnScroll() {
-        const reveals = document.querySelectorAll('.reveal');
+    // Cursor follower
+    initCursorFollower() {
+        const cursor = document.createElement('div');
+        cursor.className = 'cursor-follower';
+        cursor.style.cssText = `
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(59, 130, 246, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            backdrop-filter: blur(2px);
+        `;
+        document.body.appendChild(cursor);
         
-        reveals.forEach(element => {
-            const windowHeight = window.innerHeight;
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-            
-            if (elementTop < windowHeight - elementVisible) {
-                element.classList.add('active');
-            } else {
-                element.classList.remove('active');
-            }
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+        });
+        
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'scale(1.5)';
+            cursor.style.background = 'rgba(59, 130, 246, 0.2)';
+        });
+        
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'scale(1)';
+            cursor.style.background = 'transparent';
+        });
+
+        // Hide cursor on mobile
+        if (window.innerWidth <= 768) {
+            cursor.style.display = 'none';
+        }
+    }
+
+    // Glitch effect
+    initGlitchEffect() {
+        const glitchElements = document.querySelectorAll('.glitch');
+        
+        glitchElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                this.triggerGlitch(element);
+            });
         });
     }
 
-    // Magnetic effect for buttons
+    triggerGlitch(element) {
+        const originalText = element.textContent;
+        const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+        let iterations = 0;
+        
+        const interval = setInterval(() => {
+            element.textContent = originalText
+                .split('')
+                .map((char, index) => {
+                    if (index < iterations) {
+                        return originalText[index];
+                    }
+                    return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                })
+                .join('');
+            
+            if (iterations >= originalText.length) {
+                clearInterval(interval);
+            }
+            
+            iterations += 1 / 3;
+        }, 30);
+    }
+
+    // Magnetic effect
     initMagneticEffect() {
         const magneticElements = document.querySelectorAll('.magnetic');
         
@@ -209,80 +301,10 @@ class PortfolioAnimations {
         });
     }
 
-    // Glitch effect for text
-    initGlitchEffect() {
-        const glitchElements = document.querySelectorAll('.glitch');
-        
-        glitchElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                element.classList.add('glitch-active');
-                setTimeout(() => {
-                    element.classList.remove('glitch-active');
-                }, 500);
-            });
-        });
-    }
-
-    // Loading screen animation
-    initLoadingScreen() {
-        const loadingScreen = document.createElement('div');
-        loadingScreen.className = 'loading-screen';
-        loadingScreen.innerHTML = `
-            <div class="loader">
-                <div class="loader-text">Loading...</div>
-                <div class="loader-bar">
-                    <div class="loader-progress"></div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(loadingScreen);
-        
-        // Simulate loading
-        let progress = 0;
-        const progressBar = loadingScreen.querySelector('.loader-progress');
-        
-        const loadingTimer = setInterval(() => {
-            progress += Math.random() * 10;
-            progressBar.style.width = Math.min(progress, 100) + '%';
-            
-            if (progress >= 100) {
-                clearInterval(loadingTimer);
-                setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.remove();
-                    }, 500);
-                }, 500);
-            }
-        }, 100);
-    }
-
-    // Cursor follower
-    initCursorFollower() {
-        const cursor = document.createElement('div');
-        cursor.className = 'cursor-follower';
-        document.body.appendChild(cursor);
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-        
-        document.addEventListener('mousedown', () => {
-            cursor.classList.add('cursor-active');
-        });
-        
-        document.addEventListener('mouseup', () => {
-            cursor.classList.remove('cursor-active');
-        });
-    }
-
     // Scroll progress indicator
     initScrollProgress() {
-        const progressBar = document.createElement('div');
-        progressBar.className = 'scroll-progress';
-        document.body.appendChild(progressBar);
+        const progressBar = document.getElementById('scroll-progress');
+        if (!progressBar) return;
         
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset;
@@ -291,40 +313,162 @@ class PortfolioAnimations {
             progressBar.style.width = scrollPercent + '%';
         });
     }
+
+    // Typewriter effect
+    initTypewriter() {
+        const typewriterElement = document.getElementById('typewriter-text');
+        if (!typewriterElement) return;
+
+        const texts = [
+            'AI Product Builder',
+            'Software Engineer',
+            'Community Leader',
+            'Innovation Catalyst',
+            'Tech Evangelist'
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const pauseDelay = 2000;
+        
+        const type = () => {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typewriterElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeDelay = isDeleting ? deleteSpeed : typeSpeed;
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                typeDelay = pauseDelay;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+            
+            setTimeout(type, typeDelay);
+        };
+        
+        type();
+    }
+
+    // Count up animations
+    initCountUpAnimations() {
+        const counters = document.querySelectorAll('.count-up');
+        
+        const countObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.animateCounter(entry.target);
+                    countObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => {
+            countObserver.observe(counter);
+        });
+    }
+
+    animateCounter(element) {
+        const target = parseInt(element.textContent);
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            element.textContent = Math.floor(current);
+            
+            if (current >= target) {
+                element.textContent = target;
+                clearInterval(timer);
+            }
+        }, 16);
+    }
+
+    // Smooth reveal on scroll
+    revealOnScroll() {
+        const reveals = document.querySelectorAll('.reveal');
+        
+        reveals.forEach(element => {
+            const windowHeight = window.innerHeight;
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < windowHeight - elementVisible) {
+                element.classList.add('active');
+            }
+        });
+    }
+
+    // Initialize loading screen
+    initLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (!loadingScreen) return;
+        
+        const progressBar = document.getElementById('progress-bar');
+        let progress = 0;
+        
+        const loadingTimer = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progressBar) {
+                progressBar.style.width = Math.min(progress, 100) + '%';
+            }
+            
+            if (progress >= 100) {
+                clearInterval(loadingTimer);
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }, 500);
+            }
+        }, 100);
+    }
+
+    // Reduce motion for accessibility
+    respectReducedMotion() {
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        if (mediaQuery.matches) {
+            // Disable animations
+            document.documentElement.style.setProperty('--animation-duration', '0.01ms');
+            document.documentElement.style.setProperty('--transition-duration', '0.01ms');
+        }
+    }
 }
 
 // Initialize animations when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new PortfolioAnimations();
+    const animations = new PortfolioAnimations();
+    animations.respectReducedMotion();
+    animations.initLoadingScreen();
+    
+    // Initialize scroll reveal
+    window.addEventListener('scroll', () => {
+        animations.revealOnScroll();
+    });
 });
 
-// Additional CSS for animations (add to style.css)
-const additionalCSS = `
-.particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.particle {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: rgba(59, 130, 246, 0.6);
-    border-radius: 50%;
-}
-
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(0);
-    animation: ripple-animation 1s ease-out;
-    pointer-events: none;
+// CSS Animations as JavaScript-injected styles
+const animationStyles = `
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(90deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+    75% { transform: translateY(-10px) rotate(270deg); }
 }
 
 @keyframes ripple-animation {
@@ -334,13 +478,6 @@ const additionalCSS = `
     }
 }
 
-.char-animate {
-    display: inline-block;
-    animation: char-reveal 0.5s ease-out forwards;
-    opacity: 0;
-    transform: translateY(20px);
-}
-
 @keyframes char-reveal {
     to {
         opacity: 1;
@@ -348,114 +485,77 @@ const additionalCSS = `
     }
 }
 
-.cursor-follower {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(59, 130, 246, 0.8);
-    border-radius: 50%;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    40%, 43% {
+        transform: translate3d(0, -10px, 0);
+    }
+    70% {
+        transform: translate3d(0, -5px, 0);
+    }
+    90% {
+        transform: translate3d(0, -2px, 0);
+    }
+}
+
+.particle {
     pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s ease;
 }
 
-.cursor-active {
-    transform: scale(1.5);
-}
-
-.scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 3px;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    z-index: 9999;
-    transition: width 0.3s ease;
-}
-
-.loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #0f172a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    transition: opacity 0.5s ease;
-}
-
-.loader {
-    text-align: center;
-    color: white;
-}
-
-.loader-text {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.loader-bar {
-    width: 200px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.loader-progress {
-    height: 100%;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    transition: width 0.3s ease;
-}
-
-.glitch {
-    position: relative;
-}
-
-.glitch-active::before,
-.glitch-active::after {
-    content: attr(data-text);
+.ripple {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.8s ease-out;
+    pointer-events: none;
 }
 
-.glitch-active::before {
-    animation: glitch-1 0.5s infinite;
-    color: #ff0000;
-    z-index: -1;
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
 }
 
-.glitch-active::after {
-    animation: glitch-2 0.5s infinite;
-    color: #00ff00;
-    z-index: -2;
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-@keyframes glitch-1 {
-    0%, 100% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
+/* Smooth transitions */
+* {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes glitch-2 {
-    0%, 100% { transform: translate(0); }
-    20% { transform: translate(2px, 2px); }
-    40% { transform: translate(2px, -2px); }
-    60% { transform: translate(-2px, 2px); }
-    80% { transform: translate(-2px, -2px); }
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 `;
 
-// Inject additional CSS
+// Inject animation styles
 const styleSheet = document.createElement('style');
-styleSheet.textContent = additionalCSS;
+styleSheet.textContent = animationStyles;
 document.head.appendChild(styleSheet);

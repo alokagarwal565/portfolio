@@ -1,0 +1,640 @@
+/* Responsive design enhancements */
+
+/* Base responsive breakpoints */
+:root {
+    --breakpoint-xs: 475px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+}
+
+/* Container queries for modern browsers */
+@supports (container-type: inline-size) {
+    .container {
+        container-type: inline-size;
+    }
+    
+    @container (min-width: 768px) {
+        .card-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @container (min-width: 1024px) {
+        .card-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+}
+
+/* Extra small devices (phones, 0-475px) */
+@media (max-width: 475px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Typography */
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+    h4 { font-size: 1.25rem; }
+    
+    /* Hero section */
+    .hero-name {
+        font-size: 2.5rem !important;
+        line-height: 1.1;
+    }
+    
+    /* Navigation */
+    .nav-link {
+        font-size: 0.875rem;
+        padding: 0.5rem;
+    }
+    
+    /* Cards */
+    .card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+    }
+    
+    /* Grid adjustments */
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Spacing */
+    .section-padding {
+        padding: 3rem 0;
+    }
+    
+    /* Skills section */
+    .skill-tags {
+        gap: 0.5rem;
+    }
+    
+    .skill-tag {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    /* Contact form */
+    .contact-form {
+        padding: 1.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    /* Stats */
+    .stat-card {
+        padding: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+}
+
+/* Small devices (landscape phones, 476px-640px) */
+@media (min-width: 476px) and (max-width: 640px) {
+    .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    /* Hero section */
+    .hero-name {
+        font-size: 3rem !important;
+    }
+    
+    /* Grid adjustments */
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Cards */
+    .card {
+        padding: 1.5rem;
+    }
+    
+    /* Experience timeline */
+    .timeline-item {
+        padding-left: 2rem;
+    }
+    
+    /* Social links */
+    .social-links {
+        gap: 1rem;
+    }
+    
+    /* Achievement cards */
+    .achievement-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Medium devices (tablets, 641px-768px) */
+@media (min-width: 641px) and (max-width: 768px) {
+    .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    
+    /* Hero section */
+    .hero-name {
+        font-size: 4rem !important;
+    }
+    
+    /* Grid adjustments */
+    .grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Navigation */
+    .nav-links {
+        gap: 1.5rem;
+    }
+    
+    /* About section */
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    /* Skills grid */
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Projects grid */
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Contact section */
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* Large devices (desktops, 769px-1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Hero section */
+    .hero-name {
+        font-size: 5rem !important;
+    }
+    
+    /* Grid adjustments */
+    .grid-cols-4 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Skills grid */
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* About section */
+    .about-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+    }
+    
+    /* Experience timeline */
+    .timeline-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    /* Projects grid */
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Achievement grid */
+    .achievement-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Extra large devices (large desktops, 1025px-1280px) */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    /* Hero section */
+    .hero-name {
+        font-size: 6rem !important;
+    }
+    
+    /* Container max-width */
+    .container {
+        max-width: 1200px;
+    }
+    
+    /* Grid adjustments */
+    .grid-cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* Skills grid */
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Projects grid */
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Achievement grid */
+    .achievement-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 2XL devices (larger desktops, 1281px and up) */
+@media (min-width: 1281px) {
+    /* Hero section */
+    .hero-name {
+        font-size: 7rem !important;
+    }
+    
+    /* Container max-width */
+    .container {
+        max-width: 1400px;
+    }
+    
+    /* Projects grid */
+    .projects-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* Achievement grid */
+    .achievement-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Landscape orientation for mobile devices */
+@media (orientation: landscape) and (max-height: 500px) {
+    .hero-section {
+        padding: 2rem 0;
+    }
+    
+    .hero-name {
+        font-size: 2.5rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: row;
+        gap: 1rem;
+    }
+    
+    .section-padding {
+        padding: 2rem 0;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices */
+    .hover-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .hover-lift:hover {
+        transform: none;
+    }
+    
+    .hover-scale:hover {
+        transform: none;
+    }
+    
+    /* Increase touch targets */
+    .btn {
+        min-height: 44px;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .nav-link {
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+    }
+    
+    .social-link {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.75rem;
+    }
+    
+    /* Optimize form controls */
+    input, textarea, select {
+        min-height: 44px;
+        padding: 0.75rem;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Use high-res images */
+    .hero-bg {
+        background-image: url('assets/images/hero-bg@2x.webp');
+    }
+    
+    .profile-image {
+        background-image: url('assets/images/profile@2x.webp');
+    }
+}
+
+/* Print styles */
+@media print {
+    * {
+        color: black !important;
+        background: white !important;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+    
+    .container {
+        max-width: none;
+        padding: 0;
+    }
+    
+    .section-padding {
+        padding: 1rem 0;
+    }
+    
+    .card {
+        border: 1px solid #ccc;
+        margin-bottom: 1rem;
+        break-inside: avoid;
+    }
+    
+    .hero-name {
+        font-size: 2rem !important;
+    }
+    
+    .nav-section {
+        display: none;
+    }
+    
+    .contact-form {
+        display: none;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .parallax-element {
+        transform: none !important;
+    }
+    
+    .typewriter-effect {
+        animation: none;
+        border-right: none;
+    }
+    
+    .floating-animation {
+        animation: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .card {
+        border: 2px solid currentColor;
+    }
+    
+    .btn {
+        border: 2px solid currentColor;
+    }
+    
+    .nav-link {
+        border-bottom: 2px solid transparent;
+    }
+    
+    .nav-link:hover,
+    .nav-link.active {
+        border-bottom-color: currentColor;
+    }
+}
+
+/* Dark mode preferences */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --border-color: #334155;
+    }
+}
+
+/* Container queries for modern layout */
+@container (min-width: 320px) {
+    .responsive-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@container (min-width: 640px) {
+    .responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@container (min-width: 1024px) {
+    .responsive-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Utility classes for responsive design */
+.hidden-xs { display: none; }
+.hidden-sm { display: block; }
+.hidden-md { display: block; }
+.hidden-lg { display: block; }
+.hidden-xl { display: block; }
+
+@media (min-width: 640px) {
+    .hidden-xs { display: block; }
+    .hidden-sm { display: none; }
+}
+
+@media (min-width: 768px) {
+    .hidden-sm { display: block; }
+    .hidden-md { display: none; }
+}
+
+@media (min-width: 1024px) {
+    .hidden-md { display: block; }
+    .hidden-lg { display: none; }
+}
+
+@media (min-width: 1280px) {
+    .hidden-lg { display: block; }
+    .hidden-xl { display: none; }
+}
+
+/* Flexible grid system */
+.flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.flex-grid > * {
+    flex: 1 1 300px;
+}
+
+/* Responsive typography */
+.responsive-text {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.responsive-heading {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+}
+
+.responsive-hero {
+    font-size: clamp(2rem, 8vw, 6rem);
+}
+
+/* Aspect ratio containers */
+.aspect-ratio-16-9 {
+    aspect-ratio: 16 / 9;
+}
+
+.aspect-ratio-4-3 {
+    aspect-ratio: 4 / 3;
+}
+
+.aspect-ratio-square {
+    aspect-ratio: 1 / 1;
+}
+
+/* Responsive images */
+.responsive-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Responsive embeds */
+.responsive-embed {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.responsive-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Mobile-first approach utilities */
+.mobile-center {
+    text-align: center;
+}
+
+.mobile-stack {
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .mobile-center {
+        text-align: left;
+    }
+    
+    .mobile-stack {
+        flex-direction: row;
+    }
+}
+
+/* Performance optimizations for mobile */
+@media (max-width: 768px) {
+    .parallax-element {
+        transform: none !important;
+    }
+    
+    .complex-animation {
+        animation: none;
+    }
+    
+    .gpu-heavy {
+        will-change: auto;
+    }
+    
+    .backdrop-blur {
+        backdrop-filter: none;
+    }
+}
+
+/* Accessibility improvements */
+@media (min-width: 768px) {
+    .focus-visible {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+    }
+}
+
+/* Safe area insets for mobile devices */
+@supports (padding: env(safe-area-inset-top)) {
+    .safe-area-top {
+        padding-top: env(safe-area-inset-top);
+    }
+    
+    .safe-area-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .safe-area-left {
+        padding-left: env(safe-area-inset-left);
+    }
+    
+    .safe-area-right {
+        padding-right: env(safe-area-inset-right);
+    }
+}
